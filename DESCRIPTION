@@ -3,10 +3,13 @@ Type: Package
 Title: A quick and easy way of predicting within a simple linear regression model + visualization
 Version: 0.1.0
 Author: Emanuel Sommer
-Maintainer: Emanuel Sommer
+Maintainer: Emanuel Sommer <emanuel.sommer@web.de>
 Description: The package includes functions for quickly predicting specific values in a simple linear regression framework. It also provides a visualization function that draws a scatterplot of the data, the regression line and the highlights the prediction.
-License: What license is it under?
+License: GPL-2
 Encoding: UTF-8
+Depends: R (>= 2.10)
 LazyData: true
+Imports: ggplot2
 Suggests: 
     testthat
+RoxygenNote: 6.1.1
