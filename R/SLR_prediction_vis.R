@@ -34,6 +34,7 @@ SLR_prediction_vis<-function(y,...){UseMethod("SLR_prediction_vis")}
 #' SLR prediction visualization default method
 #'
 #' @param y  an object of a wrong class
+#' @export
 #' @author Emanuel Sommer
 SLR_prediction_vis.default<-function(y){warning("The function is not defined for this class")}
 
