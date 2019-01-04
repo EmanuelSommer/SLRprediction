@@ -50,7 +50,7 @@ SLR_prediction_vis(Y,pre_x_value = special)
 ##matrix S3 method is eqivalently used as the one for data frames
 }
 \seealso{
-\code{\link{SLR_prediction}}
+\code{\link{SLR_prediction}}  \code{\link{SLR_prediction_vis.numeric}} \code{\link{SLR_prediction_vis.data.frame}} \code{\link{SLR_prediction_vis.matrix}}
 }
 \author{
 Emanuel Sommer
