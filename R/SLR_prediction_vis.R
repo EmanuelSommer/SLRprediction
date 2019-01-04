@@ -6,11 +6,17 @@
 #'
 #' @param y depends on the class of the input: for
 #' \describe{
-#'  \item{numeric vectors}{see \link{SLR_prediction_vis.numeric}}
-#'  \item{data frames}{see \link{SLR_prediction_vis.data.frame}}
-#'  \item{matrix}{see \link{SLR_prediction_vis.matrix}}
+#'  \item{numeric vectors}{a numeric vector representing the response variable}
+#'  \item{data frames}{a numeric \code{data.frame} containing the response and exploratory variable}
+#'  \item{matrix}{a numeric \code{matrix} containing the response and exploratory variable}
 #'  }
-#' @param ... also depending on the class of the desired input
+#' @param exploratory numeric vector representing the exploratory variable, must have the same length as y (for the input class numeric only)
+#' @param col_response column number of the response variable within y (default is 1) (for data frames and matrices only)
+#' @param col_exploratory column number of the exploratory variable within y (default is 2) (for data frames and matrices only)
+#' @param pre_x_value the numeric value (within the range of the exploratory vector) for which the prediction is made
+#' @param pre_col color of the highlighted prediction within the scatterplot
+#' @param reg_col color of the regression line
+#'
 #'
 #' @return a scatterplot of the two variables + regression line + highlighted prediction
 #' @export
@@ -28,8 +34,8 @@
 #'
 #' ##matrix S3 method is eqivalently used as the one for data frames
 #' @import ggplot2
-#' @seealso \link{SLR_prediction}
-SLR_prediction_vis<-function(y,...){UseMethod("SLR_prediction_vis")}
+#' @seealso \code{\link{SLR_prediction}}
+SLR_prediction_vis<-function(y,exploratory,col_response,col_exploratory,pre_x_value,pre_col,reg_col){UseMethod("SLR_prediction_vis")}
 
 #' SLR prediction visualization default method
 #'
@@ -59,7 +65,7 @@ SLR_prediction_vis.default<-function(y){warning("The function is not defined for
 #' exploratory <- c(1,3,4.5,7,8)
 #' special <- 6
 #' SLR_prediction_vis(response,exploratory,pre_x_value = special)
-#' @seealso \link{SLR_prediction}
+#' @seealso \code{\link{SLR_prediction}}
 SLR_prediction_vis.numeric<-function(y,exploratory,pre_x_value=mean(exploratory),pre_col="red",reg_col="blue"){
   #library(ggplot2)
   pre_y_value<-SLR_prediction(y,exploratory,pre_x_value)
@@ -69,7 +75,7 @@ SLR_prediction_vis.numeric<-function(y,exploratory,pre_x_value=mean(exploratory)
     geom_hline(yintercept = pre_y_value,col=pre_col)+
     geom_smooth(method = "lm",se=F,col=reg_col,alpha=0.6)+
     labs(y="response variable",x="exploratory variable",
-         title=paste("For the exploratory value",round(pre_x_value,digits = 3),"the simple regression model predicts the response value:",round(pre_y_value,digits = 3)))
+         title=paste("Exploratory value:",round(pre_x_value,digits = 3),"Prediction:",round(pre_y_value,digits = 3)))
 }
 
 #' SLR prediction visualization S3 method for data frames
@@ -97,7 +103,7 @@ SLR_prediction_vis.numeric<-function(y,exploratory,pre_x_value=mean(exploratory)
 #' Y <- data.frame(response,exploratory)
 #' special <- 6
 #' SLR_prediction_vis(Y,pre_x_value = special)
-#' @seealso \link{SLR_prediction}
+#' @seealso \code{\link{SLR_prediction}}
 SLR_prediction_vis.data.frame<-function(y,col_response=1,col_exploratory=2,pre_x_value=mean(y[,col_exploratory]),pre_col="red",reg_col="blue"){
   #library(ggplot2)
   res<-y[,col_response]
@@ -109,7 +115,7 @@ SLR_prediction_vis.data.frame<-function(y,col_response=1,col_exploratory=2,pre_x
     geom_hline(yintercept = pre_y_value,col=pre_col)+
     geom_smooth(method = "lm",se=F,col=reg_col,alpha=0.6)+
     labs(y="response variable",x="exploratory variable",
-         title=paste("For the exploratory value",round(pre_x_value,digits = 3),"the simple regression model predicts the response value:",round(pre_y_value,digits = 3)))
+         title=paste("Exploratory value:",round(pre_x_value,digits = 3),"Prediction:",round(pre_y_value,digits = 3)))
 }
 
 #' SLR prediction visualization S3 method for matrices
@@ -136,7 +142,7 @@ SLR_prediction_vis.data.frame<-function(y,col_response=1,col_exploratory=2,pre_x
 #' special <- 6
 #' Y<-matrix(data = append(1:5,c(1,3,4.5,7,8)),byrow = FALSE,ncol = 2)
 #' SLR_prediction_vis(Y,pre_x_value = special)
-#' @seealso \link{SLR_prediction}
+#' @seealso \code{\link{SLR_prediction}}
 SLR_prediction_vis.matrix<-function(y,col_response=1,col_exploratory=2,pre_x_value=mean(y[,col_exploratory]),pre_col="red",reg_col="blue"){
   #library(ggplot2)
   res<-y[,col_response]
@@ -148,7 +154,7 @@ SLR_prediction_vis.matrix<-function(y,col_response=1,col_exploratory=2,pre_x_val
     geom_hline(yintercept = pre_y_value,col=pre_col)+
     geom_smooth(method = "lm",se=F,col=reg_col,alpha=0.6)+
     labs(y="response variable",x="exploratory variable",
-         title=paste("For the exploratory value",round(pre_x_value,digits = 3),"the simple regression model predicts the response value:",round(pre_y_value,digits = 3)))
+         title=paste("Exploratory value:",round(pre_x_value,digits = 3),"Prediction:",round(pre_y_value,digits = 3)))
 }
 
 #methods(prediction_vis)

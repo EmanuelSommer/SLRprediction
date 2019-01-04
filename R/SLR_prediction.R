@@ -8,16 +8,18 @@
 #'
 #' @param y depends on the class of the input: for
 #' \describe{
-#'  \item{numeric vectors}{see \link{SLR_prediction.numeric}}
-#'  \item{data frames}{see \link{SLR_prediction.data.frame}}
-#'  \item{matrix}{see \link{SLR_prediction.matrix}}
+#'  \item{numeric vectors}{a numeric vector representing the response variable}
+#'  \item{data frames}{a numeric \code{data.frame} containing the response and exploratory variable}
+#'  \item{matrix}{a numeric \code{matrix} containing the response and exploratory variable}
 #'  }
-#' @param ... also depending on the class of the desired input
+#' @param exploratory numeric vector representing the exploratory variable, must have the same length as y (for the input class numeric only)
+#' @param col_response column number of the response variable within y (default is 1) (for data frames and matrices only)
+#' @param col_exploratory column number of the exploratory variable within y (default is 2) (for data frames and matrices only)
+#' @param pre_x_value the numeric value (within the range of the exploratory vector) for which the prediction is made
 #'
 #' @return the predicted value of the response variable
 #' @export
 #' @author Emanuel Sommer
-#'
 #'
 #' @examples ##numeric S3 method
 #' response <- c(1:5)
@@ -30,8 +32,8 @@
 #' SLR_prediction(Y,pre_x_value = special)
 #'
 #' ##matrix S3 method is eqivalently used as the one for data frames
-#' @seealso \link{SLR_prediction_vis}
-SLR_prediction<-function(y,...){UseMethod("SLR_prediction")}
+#' @seealso \code{\link{SLR_prediction_vis}}
+SLR_prediction<-function(y,exploratory,col_response,col_exploratory,pre_x_value){UseMethod("SLR_prediction")}
 
 
 
@@ -63,7 +65,7 @@ SLR_prediction.default<-function(y){warning("The function is not defined for thi
 #' exploratory <- c(1,3,4.5,7,8)
 #' special <- 6
 #' SLR_prediction(response,exploratory,pre_x_value = special)
-#' @seealso \link{SLR_prediction_vis}
+#' @seealso \code{\link{SLR_prediction_vis}}
 SLR_prediction.numeric<-function(y,exploratory,pre_x_value=mean(exploratory)){
   if(pre_x_value>max(exploratory)|pre_x_value<min(exploratory)){
     stop("prediction out of sample")}
@@ -93,7 +95,7 @@ SLR_prediction.numeric<-function(y,exploratory,pre_x_value=mean(exploratory)){
 #' special <- 6
 #' Y<-data.frame(c(1:5),c(1,3,4.5,7,8))
 #' SLR_prediction(Y,pre_x_value = special)
-#' @seealso \link{SLR_prediction_vis}
+#' @seealso \code{\link{SLR_prediction_vis}}
 SLR_prediction.data.frame<-function(y,col_response=1,col_exploratory=2,
                                 pre_x_value=mean(y[,col_exploratory])){
   res<-y[,col_response]
@@ -126,7 +128,7 @@ SLR_prediction.data.frame<-function(y,col_response=1,col_exploratory=2,
 #' special <- 6
 #' Y<-matrix(data = append(1:5,c(1,3,4.5,7,8)),byrow = FALSE,ncol = 2)
 #' SLR_prediction(Y,pre_x_value = special)
-#' @seealso \link{SLR_prediction_vis}
+#' @seealso \code{\link{SLR_prediction_vis}}
 SLR_prediction.matrix<-function(y,col_response=1,col_exploratory=2,
                                 pre_x_value=mean(y[,col_exploratory])){
   res<-y[,col_response]

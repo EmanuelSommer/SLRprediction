@@ -31,7 +31,7 @@ Y<-data.frame(c(1:5),c(1,3,4.5,7,8))
 SLR_prediction(Y,pre_x_value = special)
 }
 \seealso{
-\link{SLR_prediction_vis}
+\code{\link{SLR_prediction_vis}}
 }
 \author{
 Emanuel Sommer

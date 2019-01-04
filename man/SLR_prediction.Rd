@@ -4,17 +4,23 @@
 \alias{SLR_prediction}
 \title{SLR prediction}
 \usage{
-SLR_prediction(y, ...)
+SLR_prediction(y, exploratory, col_response, col_exploratory, pre_x_value)
 }
 \arguments{
 \item{y}{depends on the class of the input: for
 \describe{
- \item{numeric vectors}{see \link{SLR_prediction.numeric}}
- \item{data frames}{see \link{SLR_prediction.data.frame}}
- \item{matrix}{see \link{SLR_prediction.matrix}}
+ \item{numeric vectors}{a numeric vector representing the response variable}
+ \item{data frames}{a numeric \code{data.frame} containing the response and exploratory variable}
+ \item{matrix}{a numeric \code{matrix} containing the response and exploratory variable}
  }}
 
-\item{...}{also depending on the class of the desired input}
+\item{exploratory}{numeric vector representing the exploratory variable, must have the same length as y (for the input class numeric only)}
+
+\item{col_response}{column number of the response variable within y (default is 1) (for data frames and matrices only)}
+
+\item{col_exploratory}{column number of the exploratory variable within y (default is 2) (for data frames and matrices only)}
+
+\item{pre_x_value}{the numeric value (within the range of the exploratory vector) for which the prediction is made}
 }
 \value{
 the predicted value of the response variable
@@ -39,7 +45,7 @@ SLR_prediction(Y,pre_x_value = special)
 ##matrix S3 method is eqivalently used as the one for data frames
 }
 \seealso{
-\link{SLR_prediction_vis}
+\code{\link{SLR_prediction_vis}}
 }
 \author{
 Emanuel Sommer

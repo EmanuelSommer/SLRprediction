@@ -31,7 +31,7 @@ special <- 6
 SLR_prediction(response,exploratory,pre_x_value = special)
 }
 \seealso{
-\link{SLR_prediction_vis}
+\code{\link{SLR_prediction_vis}}
 }
 \author{
 Emanuel Sommer

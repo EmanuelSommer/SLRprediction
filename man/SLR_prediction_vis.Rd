@@ -4,17 +4,28 @@
 \alias{SLR_prediction_vis}
 \title{SLR prediction visualization}
 \usage{
-SLR_prediction_vis(y, ...)
+SLR_prediction_vis(y, exploratory, col_response, col_exploratory,
+  pre_x_value, pre_col, reg_col)
 }
 \arguments{
 \item{y}{depends on the class of the input: for
 \describe{
- \item{numeric vectors}{see \link{SLR_prediction_vis.numeric}}
- \item{data frames}{see \link{SLR_prediction_vis.data.frame}}
- \item{matrix}{see \link{SLR_prediction_vis.matrix}}
+ \item{numeric vectors}{a numeric vector representing the response variable}
+ \item{data frames}{a numeric \code{data.frame} containing the response and exploratory variable}
+ \item{matrix}{a numeric \code{matrix} containing the response and exploratory variable}
  }}
 
-\item{...}{also depending on the class of the desired input}
+\item{exploratory}{numeric vector representing the exploratory variable, must have the same length as y (for the input class numeric only)}
+
+\item{col_response}{column number of the response variable within y (default is 1) (for data frames and matrices only)}
+
+\item{col_exploratory}{column number of the exploratory variable within y (default is 2) (for data frames and matrices only)}
+
+\item{pre_x_value}{the numeric value (within the range of the exploratory vector) for which the prediction is made}
+
+\item{pre_col}{color of the highlighted prediction within the scatterplot}
+
+\item{reg_col}{color of the regression line}
 }
 \value{
 a scatterplot of the two variables + regression line + highlighted prediction
@@ -39,7 +50,7 @@ SLR_prediction_vis(Y,pre_x_value = special)
 ##matrix S3 method is eqivalently used as the one for data frames
 }
 \seealso{
-\link{SLR_prediction}
+\code{\link{SLR_prediction}}
 }
 \author{
 Emanuel Sommer
