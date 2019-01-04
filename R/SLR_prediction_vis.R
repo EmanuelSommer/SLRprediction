@@ -34,7 +34,7 @@
 #'
 #' ##matrix S3 method is eqivalently used as the one for data frames
 #' @import ggplot2
-#' @seealso \code{\link{SLR_prediction}}
+#' @seealso \code{\link{SLR_prediction}}  \code{\link{SLR_prediction_vis.numeric}} \code{\link{SLR_prediction_vis.data.frame}} \code{\link{SLR_prediction_vis.matrix}}
 SLR_prediction_vis<-function(y,exploratory,col_response,col_exploratory,pre_x_value,pre_col,reg_col){UseMethod("SLR_prediction_vis")}
 
 #' SLR prediction visualization default method

@@ -32,7 +32,7 @@
 #' SLR_prediction(Y,pre_x_value = special)
 #'
 #' ##matrix S3 method is eqivalently used as the one for data frames
-#' @seealso \code{\link{SLR_prediction_vis}}
+#' @seealso \code{\link{SLR_prediction_vis}} \code{\link{SLR_prediction.numeric}} \code{\link{SLR_prediction.data.frame}} \code{\link{SLR_prediction.matrix}}
 SLR_prediction<-function(y,exploratory,col_response,col_exploratory,pre_x_value){UseMethod("SLR_prediction")}
 
 
