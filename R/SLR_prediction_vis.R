@@ -22,27 +22,32 @@
 #' @export
 #' @author Emanuel Sommer
 #'
-#' @examples ##numeric S3 method
+#' @examples
+#' ## numeric S3 method
 #' response <- c(1:5)
-#' exploratory <- c(1,3,4.5,7,8)
+#' exploratory <- c(1, 3, 4.5, 7, 8)
 #' special <- 6
-#' SLR_prediction_vis(response,exploratory,pre_x_value = special)
+#' SLR_prediction_vis(response, exploratory, pre_x_value = special)
 #'
-#' ##data.frame S3 method
-#' Y<-data.frame(c(1:5),c(1,3,4.5,7,8))
-#' SLR_prediction_vis(Y,pre_x_value = special)
+#' ## data.frame S3 method
+#' Y <- data.frame(c(1:5), c(1, 3, 4.5, 7, 8))
+#' SLR_prediction_vis(Y, pre_x_value = special)
 #'
-#' ##matrix S3 method is eqivalently used as the one for data frames
+#' ## matrix S3 method is eqivalently used as the one for data frames
 #' @import ggplot2
 #' @seealso \code{\link{SLR_prediction}}  \code{\link{SLR_prediction_vis.numeric}} \code{\link{SLR_prediction_vis.data.frame}} \code{\link{SLR_prediction_vis.matrix}}
-SLR_prediction_vis<-function(y,exploratory,col_response,col_exploratory,pre_x_value,pre_col,reg_col){UseMethod("SLR_prediction_vis")}
+SLR_prediction_vis <- function(y, exploratory, col_response, col_exploratory, pre_x_value, pre_col, reg_col) {
+  UseMethod("SLR_prediction_vis")
+}
 
 #' SLR prediction visualization default method
 #'
 #' @param y  an object of a wrong class
 #' @export
 #' @author Emanuel Sommer
-SLR_prediction_vis.default<-function(y){warning("The function is not defined for this class")}
+SLR_prediction_vis.default <- function(y) {
+  warning("The function is not defined for this class")
+}
 
 #' SLR prediction visualization numeric S3 method
 #'
@@ -61,21 +66,25 @@ SLR_prediction_vis.default<-function(y){warning("The function is not defined for
 #' @author Emanuel Sommer
 #' @import ggplot2
 #'
-#' @examples response <- c(1:5)
-#' exploratory <- c(1,3,4.5,7,8)
+#' @examples
+#' response <- c(1:5)
+#' exploratory <- c(1, 3, 4.5, 7, 8)
 #' special <- 6
-#' SLR_prediction_vis(response,exploratory,pre_x_value = special)
+#' SLR_prediction_vis(response, exploratory, pre_x_value = special)
 #' @seealso \code{\link{SLR_prediction}}
-SLR_prediction_vis.numeric<-function(y,exploratory,pre_x_value=mean(exploratory),pre_col="red",reg_col="blue"){
-  #library(ggplot2)
-  pre_y_value<-SLR_prediction(y,exploratory,pre_x_value)
-  vis_data<-data.frame(y,exploratory,pre_x_value,pre_y_value)
-  ggplot2::ggplot(vis_data,aes(x=exploratory,y=y))+geom_point()+
-    geom_vline(xintercept = pre_x_value,col=pre_col)+
-    geom_hline(yintercept = pre_y_value,col=pre_col)+
-    geom_smooth(method = "lm",se=F,col=reg_col,alpha=0.6)+
-    labs(y="response variable",x="exploratory variable",
-         title=paste("Exploratory value:",round(pre_x_value,digits = 3),"Prediction:",round(pre_y_value,digits = 3)))
+SLR_prediction_vis.numeric <- function(y, exploratory, pre_x_value = mean(exploratory), pre_col = "red", reg_col = "blue") {
+  # library(ggplot2)
+  pre_y_value <- SLR_prediction(y, exploratory, pre_x_value)
+  vis_data <- data.frame(y, exploratory, pre_x_value, pre_y_value)
+  ggplot2::ggplot(vis_data, aes(x = exploratory, y = y)) +
+    geom_point() +
+    geom_vline(xintercept = pre_x_value, col = pre_col) +
+    geom_hline(yintercept = pre_y_value, col = pre_col) +
+    geom_smooth(method = "lm", se = F, col = reg_col, alpha = 0.6) +
+    labs(
+      y = "response variable", x = "exploratory variable",
+      title = paste("Exploratory value:", round(pre_x_value, digits = 3), "Prediction:", round(pre_y_value, digits = 3))
+    )
 }
 
 #' SLR prediction visualization S3 method for data frames
@@ -98,24 +107,28 @@ SLR_prediction_vis.numeric<-function(y,exploratory,pre_x_value=mean(exploratory)
 #' @import ggplot2
 #'
 #'
-#' @examples response <- c(1:5)
-#' exploratory <- c(1,3,4.5,7,8)
-#' Y <- data.frame(response,exploratory)
+#' @examples
+#' response <- c(1:5)
+#' exploratory <- c(1, 3, 4.5, 7, 8)
+#' Y <- data.frame(response, exploratory)
 #' special <- 6
-#' SLR_prediction_vis(Y,pre_x_value = special)
+#' SLR_prediction_vis(Y, pre_x_value = special)
 #' @seealso \code{\link{SLR_prediction}}
-SLR_prediction_vis.data.frame<-function(y,col_response=1,col_exploratory=2,pre_x_value=mean(y[,col_exploratory]),pre_col="red",reg_col="blue"){
-  #library(ggplot2)
-  res<-y[,col_response]
-  exp<-y[,col_exploratory]
-  pre_y_value<-SLR_prediction(y,col_response,col_exploratory,pre_x_value)
-  vis_data<-data.frame(res,exp,pre_x_value,pre_y_value)
-  ggplot2::ggplot(vis_data,aes(x=exp,y=res))+geom_point()+
-    geom_vline(xintercept = pre_x_value,col=pre_col)+
-    geom_hline(yintercept = pre_y_value,col=pre_col)+
-    geom_smooth(method = "lm",se=F,col=reg_col,alpha=0.6)+
-    labs(y="response variable",x="exploratory variable",
-         title=paste("Exploratory value:",round(pre_x_value,digits = 3),"Prediction:",round(pre_y_value,digits = 3)))
+SLR_prediction_vis.data.frame <- function(y, col_response = 1, col_exploratory = 2, pre_x_value = mean(y[, col_exploratory]), pre_col = "red", reg_col = "blue") {
+  # library(ggplot2)
+  res <- y[, col_response]
+  exp <- y[, col_exploratory]
+  pre_y_value <- SLR_prediction(y, col_response, col_exploratory, pre_x_value)
+  vis_data <- data.frame(res, exp, pre_x_value, pre_y_value)
+  ggplot2::ggplot(vis_data, aes(x = exp, y = res)) +
+    geom_point() +
+    geom_vline(xintercept = pre_x_value, col = pre_col) +
+    geom_hline(yintercept = pre_y_value, col = pre_col) +
+    geom_smooth(method = "lm", se = F, col = reg_col, alpha = 0.6) +
+    labs(
+      y = "response variable", x = "exploratory variable",
+      title = paste("Exploratory value:", round(pre_x_value, digits = 3), "Prediction:", round(pre_y_value, digits = 3))
+    )
 }
 
 #' SLR prediction visualization S3 method for matrices
@@ -140,22 +153,25 @@ SLR_prediction_vis.data.frame<-function(y,col_response=1,col_exploratory=2,pre_x
 #'
 #' @examples
 #' special <- 6
-#' Y<-matrix(data = append(1:5,c(1,3,4.5,7,8)),byrow = FALSE,ncol = 2)
-#' SLR_prediction_vis(Y,pre_x_value = special)
+#' Y <- matrix(data = append(1:5, c(1, 3, 4.5, 7, 8)), byrow = FALSE, ncol = 2)
+#' SLR_prediction_vis(Y, pre_x_value = special)
 #' @seealso \code{\link{SLR_prediction}}
-SLR_prediction_vis.matrix<-function(y,col_response=1,col_exploratory=2,pre_x_value=mean(y[,col_exploratory]),pre_col="red",reg_col="blue"){
-  #library(ggplot2)
-  res<-y[,col_response]
-  exp<-y[,col_exploratory]
-  pre_y_value<-SLR_prediction(y,col_response,col_exploratory,pre_x_value)
-  vis_data<-data.frame(res,exp,pre_x_value,pre_y_value)
-  ggplot2::ggplot(vis_data,aes(x=exp,y=res))+geom_point()+
-    geom_vline(xintercept = pre_x_value,col=pre_col)+
-    geom_hline(yintercept = pre_y_value,col=pre_col)+
-    geom_smooth(method = "lm",se=F,col=reg_col,alpha=0.6)+
-    labs(y="response variable",x="exploratory variable",
-         title=paste("Exploratory value:",round(pre_x_value,digits = 3),"Prediction:",round(pre_y_value,digits = 3)))
+SLR_prediction_vis.matrix <- function(y, col_response = 1, col_exploratory = 2, pre_x_value = mean(y[, col_exploratory]), pre_col = "red", reg_col = "blue") {
+  # library(ggplot2)
+  res <- y[, col_response]
+  exp <- y[, col_exploratory]
+  pre_y_value <- SLR_prediction(y, col_response, col_exploratory, pre_x_value)
+  vis_data <- data.frame(res, exp, pre_x_value, pre_y_value)
+  ggplot2::ggplot(vis_data, aes(x = exp, y = res)) +
+    geom_point() +
+    geom_vline(xintercept = pre_x_value, col = pre_col) +
+    geom_hline(yintercept = pre_y_value, col = pre_col) +
+    geom_smooth(method = "lm", se = F, col = reg_col, alpha = 0.6) +
+    labs(
+      y = "response variable", x = "exploratory variable",
+      title = paste("Exploratory value:", round(pre_x_value, digits = 3), "Prediction:", round(pre_y_value, digits = 3))
+    )
 }
 
-#methods(prediction_vis)
-#prediction_vis(a,b,pre_x_value=9)
+# methods(prediction_vis)
+# prediction_vis(a,b,pre_x_value=9)
